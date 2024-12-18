@@ -1,0 +1,17 @@
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: software-projects-management-system
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sw_project_mgt
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
