@@ -34,6 +34,15 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User findUserById(Long userId) throws Exception {
+        Optional<User> optionalUser = userRepo.findById(userId);
+        if (optionalUser.isEmpty())
+            throw new Exception("User not found with Id = " + userId);
+
+        return optionalUser.get();
+    }
+
 
 
 }
