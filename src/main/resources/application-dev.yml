@@ -5,11 +5,11 @@ spring:
     name: software-projects-management-system
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sw_project_mgt
+    url: jdbc:mysql://localhost:3306/sw_projectmgt
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
     show-sql: true
