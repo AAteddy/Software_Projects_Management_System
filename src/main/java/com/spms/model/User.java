@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long useId;
+    private Long userId;
 
     private String fullName;
 
@@ -31,11 +31,11 @@ public class User {
     private List<Issue> assignedIssues = new ArrayList<>();
 
     public Long getUseId() {
-        return useId;
+        return userId;
     }
 
     public void setUseId(Long useId) {
-        this.useId = useId;
+        this.userId = useId;
     }
 
     public String getFullName() {
