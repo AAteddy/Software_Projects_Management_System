@@ -1,9 +1,14 @@
 
 package com.spms.config;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class JwtConstants {
 
-    public static final String SECRET_KEY = "+uTOv+AdyccUTw9M3YVNRIJ1BL6FKEw8HNQVF59J09q/qE254JKr0nC2rSzNCtZu";
+    // Load the environment variables
+    private static final Dotenv dotenv = Dotenv.load();
+
+    public static final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
     public static final String JWT_HEADER = "Authorization";
 
 }
