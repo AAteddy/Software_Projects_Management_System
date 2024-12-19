@@ -62,5 +62,34 @@ public class AuthController {
                 HttpStatus.CREATED);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) {
+
+        String username = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        Authentication authentication = authenticateUser(username, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = JwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("login success");
+
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
+    }
+
+    private Authentication authenticateUser(String username, String password) {
+
+        UserDetails userDetails = customUserDetails.loadUserByUsername(username);
+        if(userDetails == null)
+            throw new BadCredentialsException("Invalid Username");
+
+        if ( !passwordEncoder.matches(password, userDetails.getPassword()) )
+            throw new BadCredentialsException("Invalid Password");
+
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
 
 }
