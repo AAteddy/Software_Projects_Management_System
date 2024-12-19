@@ -1,5 +1,3 @@
-
-
 package com.spms.model;
 
 
@@ -9,47 +7,46 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "issues")
-public class Issue {
+@Table(name = "projects")
+public class Project {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String title;
+    private String name;
 
     private String description;
 
-    private String status;
-
-    private Long projectID;
-
-    private String priority;
-
-    private LocalDate dueDate;
+    private String category;
 
     private List<String> tags = new ArrayList<>();
 
-    @ManyToOne
-    private User assignee;
-
     @JsonIgnore
-    @ManyToOne
-    private Project project;
+    @OneToOne(
+            mappedBy = "projects",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Chat chat;
 
-    @JsonIgnore
+    @ManyToOne
+    private User owner;
+
     @OneToMany(
-            mappedBy = "issue",
+            mappedBy = "projects",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Comment> comments = new ArrayList<>();
+    private List<Issue> issues = new ArrayList<>();
 
+    @ManyToMany
+    private List<User> team = new ArrayList<>();
 }
