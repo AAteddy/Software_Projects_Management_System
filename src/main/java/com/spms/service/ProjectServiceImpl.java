@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -44,11 +45,24 @@ public class ProjectServiceImpl implements ProjectService {
         return savedProject;
     }
 
-//    @Override
-//    public List<Project> getProjectByTeam(User user, String category, String tag) throws Exception {
-//        return List.of();
-//    }
-//
+    @Override
+    public List<Project> getProjectByTeam(User user, String category, String tag) throws Exception {
+
+        List<Project> projects = projectRepo.findByTeamContainingOrOwner(user, user);
+
+        if ( category != null )
+            projects = projects.stream().filter(
+                    project -> project.getCategory().equals(category))
+                    .toList();
+
+        if (tag != null)
+            projects = projects.stream().filter(
+                    project -> project.getTags().contains(tag))
+                    .toList();
+
+        return projects;
+    }
+
 //    @Override
 //    public Project getProjectById(Long projectId) throws Exception {
 //        return null;

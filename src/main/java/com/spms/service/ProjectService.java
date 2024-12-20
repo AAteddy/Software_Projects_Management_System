@@ -11,7 +11,7 @@ public interface ProjectService {
 
     Project createProject(Project project, User user) throws Exception;
 
-//    List<Project> getProjectByTeam(User user, String category, String tag) throws Exception;
+    List<Project> getProjectByTeam(User user, String category, String tag) throws Exception;
 //
 //    Project getProjectById(Long projectId) throws Exception;
 //
