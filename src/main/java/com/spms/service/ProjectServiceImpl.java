@@ -106,16 +106,24 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepo.save(project);
     }
-//
-//    @Override
-//    public void removeUserFromProject(Long projectId, Long userId) throws Exception {
-//
-//    }
-//
-//    @Override
-//    public Chat getChatByProjectId(Long projectId) throws Exception {
-//        return null;
-//    }
+
+    @Override
+    public void removeUserFromProject(Long projectId, Long userId) throws Exception {
+        Project project = getProjectById(projectId);
+        User user = userService.findUserById(userId);
+
+        if ( project.getTeam().contains(user) ) {
+            project.getTeam().remove(user);
+            project.getChat().getUsers().remove(user);
+        }
+
+        projectRepo.save(project);
+    }
+
+    @Override
+    public Chat getChatByProjectId(Long projectId) throws Exception {
+        return null;
+    }
 }
 
 
