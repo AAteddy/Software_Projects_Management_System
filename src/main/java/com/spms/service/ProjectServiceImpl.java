@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,10 +64,15 @@ public class ProjectServiceImpl implements ProjectService {
         return projects;
     }
 
-//    @Override
-//    public Project getProjectById(Long projectId) throws Exception {
-//        return null;
-//    }
+    @Override
+    public Project getProjectById(Long projectId) throws Exception {
+        Optional<Project> optionalProject = projectRepo.findById(projectId);
+
+        if (optionalProject.isEmpty())
+            throw new Exception("Project not found with Id = " + projectId);
+
+        return optionalProject.get();
+    }
 //
 //    @Override
 //    public void deleteProject(Long projectId, Long userId) throws Exception {
