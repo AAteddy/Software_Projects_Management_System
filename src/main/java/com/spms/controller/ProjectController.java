@@ -1,6 +1,7 @@
 package com.spms.controller;
 
 
+import com.spms.model.Chat;
 import com.spms.model.Project;
 import com.spms.model.User;
 import com.spms.response.ApiMessageResponse;
@@ -98,6 +99,18 @@ public class ProjectController {
         List<Project> searchedProjects = projectService.searchProjects(keyword, user);
 
         return new ResponseEntity<>(searchedProjects, HttpStatus.OK);
+    }
+
+    @GetMapping("/{projectId}/chat")
+    public ResponseEntity<Chat> getChatByProjectId(
+            @PathVariable Long projectId,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        Chat chat = projectService.getChatByProjectId(projectId);
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
     }
 
 }
