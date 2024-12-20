@@ -73,11 +73,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         return optionalProject.get();
     }
-//
-//    @Override
-//    public void deleteProject(Long projectId, Long userId) throws Exception {
-//
-//    }
+
+    @Override
+    public void deleteProject(Long projectId, Long userId) throws Exception {
+
+        getProjectById(projectId);
+
+        projectRepo.deleteById(projectId);
+
+    }
 //
 //    @Override
 //    public Project updateProject(Project updateProject, Long id) throws Exception {
