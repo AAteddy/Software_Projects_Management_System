@@ -122,7 +122,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Chat getChatByProjectId(Long projectId) throws Exception {
-        return null;
+        Project project = getProjectById(projectId);
+
+        return project.getChat();
     }
 }
 
