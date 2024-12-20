@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long id;
 
     private String fullName;
 
@@ -30,12 +30,12 @@ public class User {
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
     private List<Issue> assignedIssues = new ArrayList<>();
 
-    public Long getUseId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUseId(Long useId) {
-        this.userId = useId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
