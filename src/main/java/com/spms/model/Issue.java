@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "issues")
+@Table(name = "issue")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
