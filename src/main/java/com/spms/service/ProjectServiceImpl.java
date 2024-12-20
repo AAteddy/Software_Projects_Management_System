@@ -93,11 +93,19 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepo.save(project);
     }
-//
-//    @Override
-//    public void addUserToProject(Long projectId, Long userId) throws Exception {
-//
-//    }
+
+    @Override
+    public void addUserToProject(Long projectId, Long userId) throws Exception {
+        Project project = getProjectById(projectId);
+        User user = userService.findUserById(userId);
+
+        if ( !project.getTeam().contains(user) ) {
+            project.getTeam().add(user);
+            project.getChat().getUsers().add(user);
+        }
+
+        projectRepo.save(project);
+    }
 //
 //    @Override
 //    public void removeUserFromProject(Long projectId, Long userId) throws Exception {

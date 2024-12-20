@@ -18,8 +18,8 @@ public interface ProjectService {
     void deleteProject(Long projectId, Long userId) throws Exception;
 
     Project updateProject(Project updateProject, Long id) throws Exception;
-//
-//    void addUserToProject(Long projectId, Long userId) throws Exception;
+
+    void addUserToProject(Long projectId, Long userId) throws Exception;
 //
 //    void removeUserFromProject(Long projectId, Long userId) throws Exception;
 //
