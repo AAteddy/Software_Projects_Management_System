@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "projects")
+@Table(name = "project")
 public class Project {
 
     @Id
@@ -32,7 +32,7 @@ public class Project {
 
     @JsonIgnore
     @OneToOne(
-            mappedBy = "projects",
+            mappedBy = "project",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Chat chat;
@@ -41,7 +41,7 @@ public class Project {
     private User owner;
 
     @OneToMany(
-            mappedBy = "projects",
+            mappedBy = "project",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
