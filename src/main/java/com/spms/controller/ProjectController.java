@@ -3,6 +3,7 @@ package com.spms.controller;
 
 import com.spms.model.Project;
 import com.spms.model.User;
+import com.spms.response.ApiMessageResponse;
 import com.spms.service.ProjectService;
 import com.spms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,32 @@ public class ProjectController {
         Project createdProject = projectService.createProject(newProject, user);
 
         return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{projectId}")
+    public ResponseEntity<Project> updateProject(
+            @PathVariable Long projectId,
+            @RequestBody Project project,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        Project updateProject = projectService.updateProject(project, projectId);
+
+        return new ResponseEntity<>(updateProject, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{projectId")
+    public ResponseEntity<ApiMessageResponse> deleteProject(
+            @PathVariable Long projectId,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        projectService.deleteProject(projectId, user.getId());
+        ApiMessageResponse response = new ApiMessageResponse("Project Deleted Successfully");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
