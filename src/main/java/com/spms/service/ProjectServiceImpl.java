@@ -82,11 +82,17 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepo.deleteById(projectId);
 
     }
-//
-//    @Override
-//    public Project updateProject(Project updateProject, Long id) throws Exception {
-//        return null;
-//    }
+
+    @Override
+    public Project updateProject(Project updateProject, Long id) throws Exception {
+        Project project = getProjectById(id);
+
+        project.setName(updateProject.getName());
+        project.setDescription(updateProject.getDescription());
+        project.setTags(updateProject.getTags());
+
+        return projectRepo.save(project);
+    }
 //
 //    @Override
 //    public void addUserToProject(Long projectId, Long userId) throws Exception {
