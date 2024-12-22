@@ -2,6 +2,7 @@ package com.spms.controller;
 
 
 import com.spms.model.Chat;
+import com.spms.model.Invitation;
 import com.spms.model.Project;
 import com.spms.model.User;
 import com.spms.request.InviteRequest;
@@ -130,6 +131,20 @@ public class ProjectController {
         ApiMessageResponse response = new ApiMessageResponse("User Invitation Sent");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/accept_invitation")
+    public ResponseEntity<Invitation> acceptInvitedProject(
+            @RequestParam String token,
+            @RequestBody Project project,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        Invitation invitation = invitationService.acceptInvitation(token, user.getId());
+        projectService.addUserToProject(invitation.getProjectId(), user.getId());
+
+        return new ResponseEntity<>(invitation, HttpStatus.ACCEPTED);
     }
 
 }
