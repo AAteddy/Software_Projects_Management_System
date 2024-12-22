@@ -11,6 +11,6 @@ public interface InvitationService {
     Invitation acceptInvitation (String token, Long userId) throws Exception;
 
     String getTokenByUserMail (String userEmail);
-//
-//    void deleteToken (String token);
+
+    void deleteToken (String token);
 }

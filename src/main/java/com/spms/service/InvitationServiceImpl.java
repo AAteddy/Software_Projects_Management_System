@@ -47,10 +47,16 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public String getTokenByUserMail(String userEmail) {
-
         Invitation invitation = invitationRepo.findByEmail(userEmail);
 
         return invitation.getToken();
+    }
+
+    @Override
+    public void deleteToken(String token) {
+        Invitation invitation = invitationRepo.findByToken(token);
+
+        invitationRepo.delete(invitation);
     }
 
 
