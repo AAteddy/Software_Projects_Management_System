@@ -12,11 +12,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InvitationServiceImpl implements InvitationService {
 
-
     private final InvitationRepo invitationRepo;
 
     private final EmailService emailService;
-
 
     @Override
     public void sendInvitation(String email, Long projectId) throws MessagingException {
@@ -36,4 +34,16 @@ public class InvitationServiceImpl implements InvitationService {
         emailService.sendEmailWithToken(email, invitationLink);
 
     }
+
+    @Override
+    public Invitation acceptInvitation(String token, Long userId) throws Exception {
+
+        Invitation invitation = invitationRepo.findByToken(token);
+        if (invitation == null)
+            throw new Exception("Invalid Invitation Token");
+
+        return invitation;
+    }
+
+
 }
