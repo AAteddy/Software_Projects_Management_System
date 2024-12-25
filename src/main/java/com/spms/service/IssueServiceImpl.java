@@ -16,5 +16,12 @@ public class IssueServiceImpl implements IssueService {
     private IssueRepo issueRepo;
 
 
+    @Override
+    public Optional<Issue> getIssueById(Long issueId) throws Exception {
+        Optional<Issue> issue = issueRepo.findById(issueId);
+        if (issue.isPresent())
+            return issue;
 
+        throw new Exception("Issue not found with Issue Id = " + issueId);
+    }
 }
