@@ -42,13 +42,15 @@ public class AuthController {
             throw new Exception("Email already exist with another user account");
 
         User createdUser = new User();
-        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        createdUser.setPassword(
+                passwordEncoder.encode(user.getPassword()));
         createdUser.setEmail(user.getEmail());
         createdUser.setFullName(user.getFullName());
 
         userRepo.save(createdUser);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = JwtProvider.generateToken(authentication);
@@ -64,7 +66,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) {
-
         String username = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -81,7 +82,6 @@ public class AuthController {
     }
 
     private Authentication authenticateUser(String username, String password) {
-
         UserDetails userDetails = customUserDetails.loadUserByUsername(username);
         if(userDetails == null)
             throw new BadCredentialsException("Invalid Username");
@@ -89,7 +89,10 @@ public class AuthController {
         if ( !passwordEncoder.matches(password, userDetails.getPassword()) )
             throw new BadCredentialsException("Invalid Password");
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities());
     }
 
 }
