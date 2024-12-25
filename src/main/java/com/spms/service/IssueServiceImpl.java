@@ -1,7 +1,10 @@
 package com.spms.service;
 
 import com.spms.model.Issue;
+import com.spms.model.Project;
+import com.spms.model.User;
 import com.spms.repository.IssueRepo;
+import com.spms.request.IssueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class IssueServiceImpl implements IssueService {
     @Autowired
     private IssueRepo issueRepo;
 
+    @Autowired
+    private ProjectService projectService;
+
 
     @Override
     public Optional<Issue> getIssueById(Long issueId) throws Exception {
@@ -29,6 +35,23 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<Issue> getIssueByProjectId(Long projectId) throws Exception {
         return issueRepo.findByProjectID(projectId);
+    }
+
+    @Override
+    public Issue createIssue(IssueRequest issueRequest, User user) throws Exception {
+        Project project = projectService.getProjectById(issueRequest.getProjectID());
+
+        Issue issue = new Issue();
+        issue.setTitle(issueRequest.getTitle());
+        issue.setStatus(issueRequest.getStatus());
+        issue.setDescription(issueRequest.getDescription());
+        issue.setProjectID(issueRequest.getProjectID());
+        issue.setPriority(issueRequest.getPriority());
+        issue.setDueDate(issueRequest.getDueDate());
+
+        issue.setProject(project);
+
+        return issueRepo.save(issue);
     }
 
 
