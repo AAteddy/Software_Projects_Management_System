@@ -54,5 +54,11 @@ public class IssueServiceImpl implements IssueService {
         return issueRepo.save(issue);
     }
 
+    @Override
+    public void deleteIssue(Long issueId, Long userId) throws Exception {
+        getIssueById(issueId);
+        issueRepo.deleteById(issueId);
+    }
+
 
 }

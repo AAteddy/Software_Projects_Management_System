@@ -15,8 +15,8 @@ public interface IssueService {
     List<Issue> getIssueByProjectId(Long projectId) throws Exception;
 
     Issue createIssue(IssueRequest issueRequest, User user) throws Exception;
-//
-//    String deleteIssue(Long issueId, Long userId) throws Exception;
+
+    void deleteIssue(Long issueId, Long userId) throws Exception;
 //
 //    Issue addUserToIssue(Long issueId, Long userId) throws Exception;
 //
