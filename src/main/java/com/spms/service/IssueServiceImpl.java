@@ -66,11 +66,19 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue addUserToIssue(Long issueId, Long userId) throws Exception {
         User user = userService.findUserById(userId);
+
         Issue issue = getIssueById(issueId);
         issue.setAssignee(user);
 
         return issueRepo.save(issue);
     }
 
+    @Override
+    public Issue updateStatus(Long issueId, String status) throws Exception {
+        Issue issue = getIssueById(issueId);
+        issue.setStatus(status);
+
+        return issueRepo.save(issue);
+    }
 
 }
