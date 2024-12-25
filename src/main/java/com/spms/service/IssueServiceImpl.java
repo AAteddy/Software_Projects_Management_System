@@ -22,12 +22,15 @@ public class IssueServiceImpl implements IssueService {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private UserService userService;
+
 
     @Override
-    public Optional<Issue> getIssueById(Long issueId) throws Exception {
+    public Issue getIssueById(Long issueId) throws Exception {
         Optional<Issue> issue = issueRepo.findById(issueId);
         if (issue.isPresent())
-            return issue;
+            return issue.get();
 
         throw new Exception("Issue not found with Issue Id = " + issueId);
     }
@@ -58,6 +61,15 @@ public class IssueServiceImpl implements IssueService {
     public void deleteIssue(Long issueId, Long userId) throws Exception {
         getIssueById(issueId);
         issueRepo.deleteById(issueId);
+    }
+
+    @Override
+    public Issue addUserToIssue(Long issueId, Long userId) throws Exception {
+        User user = userService.findUserById(userId);
+        Issue issue = getIssueById(issueId);
+        issue.setAssignee(user);
+
+        return issueRepo.save(issue);
     }
 
 
