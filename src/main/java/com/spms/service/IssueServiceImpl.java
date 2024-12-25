@@ -5,6 +5,7 @@ import com.spms.repository.IssueRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,4 +25,11 @@ public class IssueServiceImpl implements IssueService {
 
         throw new Exception("Issue not found with Issue Id = " + issueId);
     }
+
+    @Override
+    public List<Issue> getIssueByProjectId(Long projectId) throws Exception {
+        return issueRepo.findByProjectID(projectId);
+    }
+
+
 }
