@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InviteRequest {
-
     private Long projectId;
 
     private String email;
