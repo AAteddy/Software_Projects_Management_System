@@ -1,15 +1,17 @@
 package com.spms.controller;
 
 
+import com.spms.dto.IssueDTO;
 import com.spms.model.Issue;
+import com.spms.model.User;
+import com.spms.request.IssueRequest;
+import com.spms.response.ApiMessageResponse;
+import com.spms.response.AuthResponse;
 import com.spms.service.IssueService;
 import com.spms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +43,45 @@ public class IssueController {
         return ResponseEntity.ok(issueService.getIssueByProjectId(projectId));
     }
 
+    @PostMapping
+    public ResponseEntity<IssueDTO> createIssue(
+            @RequestBody IssueRequest issueRequest,
+            @RequestHeader("Authorization") String token
+            ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(token);
+
+        Issue createdIssue = issueService.createIssue(issueRequest, user);
+
+        IssueDTO issueDTO = new IssueDTO();
+        issueDTO.setTitle(createdIssue.getTitle());
+        issueDTO.setId(createdIssue.getId());
+        issueDTO.setDescription(createdIssue.getDescription());
+        issueDTO.setStatus(createdIssue.getStatus());
+        issueDTO.setPriority(createdIssue.getPriority());
+        issueDTO.setProject(createdIssue.getProject());
+        issueDTO.setProjectID(createdIssue.getProjectID());
+        issueDTO.setDueDate(createdIssue.getDueDate());
+        issueDTO.setAssignee(createdIssue.getAssignee());
+        issueDTO.setTags(createdIssue.getTags());
+
+        return ResponseEntity.ok(issueDTO);
+    }
+
+    @DeleteMapping("/{issueId}")
+    public ResponseEntity<ApiMessageResponse> deleteIssue(
+            @PathVariable Long issueId,
+            @RequestHeader("Authorization") String token
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(token);
+        issueService.deleteIssue(issueId, user.getId());
+
+        ApiMessageResponse response = new ApiMessageResponse();
+        response.setMessage("Issue Deleted Successfully.");
+
+        return ResponseEntity.ok(response);
+    }
 
 
 }
