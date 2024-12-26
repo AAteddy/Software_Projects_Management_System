@@ -4,6 +4,7 @@ package com.spms.controller;
 import com.spms.model.Comment;
 import com.spms.model.User;
 import com.spms.request.CreateCommentRequest;
+import com.spms.response.ApiMessageResponse;
 import com.spms.service.CommentService;
 import com.spms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,21 @@ public class CommentController {
                 request.getContent());
 
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<ApiMessageResponse> removeComment(
+            @PathVariable Long commentId,
+            @RequestHeader("Authorization") String token
+    ) throws Exception {
+
+        User user = userService.findUserProfileByJwt(token);
+
+        commentService.deleteComment(commentId, user.getId());
+
+        ApiMessageResponse response = new ApiMessageResponse();
+        response.setMessage("Comment deleted successfully");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
