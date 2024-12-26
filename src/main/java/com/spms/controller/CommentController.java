@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
@@ -53,5 +55,14 @@ public class CommentController {
         response.setMessage("Comment deleted successfully");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{issueId}")
+    public ResponseEntity<List<Comment>> getCommentsByIssueId(
+            @PathVariable Long issueId) {
+
+        List<Comment> comments = commentService.findCommentsByIssueId(issueId);
+
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 }
