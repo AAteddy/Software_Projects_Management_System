@@ -9,11 +9,11 @@ import com.spms.service.MessageService;
 import com.spms.service.ProjectService;
 import com.spms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -48,5 +48,15 @@ public class MessageController {
                 request.getContent());
 
         return ResponseEntity.ok(sendMessage);
+    }
+
+    @GetMapping("/chat/{projectId}")
+    public ResponseEntity<List<Message>> getMessageByProjectId(
+            @PathVariable Long projectId
+    ) throws Exception {
+
+        List<Message> messages = messageService.getMessagesByProjectId(projectId);
+
+        return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 }
