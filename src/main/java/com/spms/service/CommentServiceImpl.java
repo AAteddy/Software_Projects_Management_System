@@ -53,4 +53,26 @@ public class CommentServiceImpl implements CommentService {
         return savedComment;
     }
 
+    @Override
+    public void deleteComment(Long commentId, Long userId) throws Exception {
+        Optional<Comment> commentOptional = commentRepo.findById(commentId);
+        Optional<User> userOptional = userRepo.findById(userId);
+
+        if (commentOptional.isEmpty())
+            throw new Exception("Comment not found with comment Id : " + commentId);
+
+        if (userOptional.isEmpty())
+            throw new Exception("User not found with user id : " + userId);
+
+        Comment comment = commentOptional.get();
+        User user = userOptional.get();
+
+        if (comment.getUser().equals(user)) {
+            commentRepo.delete(comment);
+        } else {
+            throw new Exception("User does not have permission to delete this comment");
+        }
+    }
+
+
 }
