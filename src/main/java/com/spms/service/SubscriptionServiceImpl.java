@@ -33,4 +33,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         return subscriptionRepo.save(subscription);
     }
+
+    @Override
+    public Subscription getUserSubscription(Long userId) throws Exception {
+        return subscriptionRepo.findByUserId(userId);
+    }
+
+
 }

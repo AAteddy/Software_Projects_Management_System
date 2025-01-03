@@ -9,6 +9,8 @@ public interface SubscriptionService {
 
     Subscription createSubscription(User user);
 
+    Subscription getUserSubscription(Long userId) throws Exception;
+
 
 
 }
