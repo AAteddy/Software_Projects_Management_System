@@ -11,6 +11,8 @@ public interface SubscriptionService {
 
     Subscription getUserSubscription(Long userId) throws Exception;
 
+    Subscription upgradeSubscription(Long userId, PlanType planType);
+
 
 
 }

@@ -39,5 +39,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionRepo.findByUserId(userId);
     }
 
+    @Override
+    public Subscription upgradeSubscription(Long userId, PlanType planType) {
+        Subscription subscription = subscriptionRepo.findByUserId(userId);
+
+        subscription.setSubscriptionStartDate(LocalDate.now());
+        if (planType.equals(PlanType.ANNUALLY))
+            subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(12));
+        else
+            subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(1));
+
+        return subscriptionRepo.save(subscription);
+    }
+
 
 }
